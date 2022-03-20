@@ -21,6 +21,7 @@ private var TAG = "GameActivity"
 //static variables
 private var TERM_RANGE = (0..3)
 private var NUMBER_RANGE = (1..20)
+private var CORRECT_COUNT_GIFT = 5
 private var OPERATORS = listOf("/", "x", "+", "-")
 private var equationList: MutableList<String> = mutableListOf()
 
@@ -44,6 +45,7 @@ class GameActivity : AppCompatActivity() {
 
     private val initTime: Long = 50000  //in milliseconds (x) =>{x*1000}
     private val cdInternal: Long = 1000  //in milliseconds (x) =>{x*1000}
+    private val giftTime: Long = 10000  //in milliseconds (x) =>{x*1000}
 
     private var leftTime: Long = initTime  //in milliseconds (x) =>{x*1000}
     private var correct: Int = 0
@@ -162,9 +164,10 @@ class GameActivity : AppCompatActivity() {
                 SUCCESS_MESSAGES.random(),
                 Toast.LENGTH_SHORT
             )
-            if (correct % 2 == 0) {
+            //checking whether user is eligible for the gift
+            if (correct % CORRECT_COUNT_GIFT == 0) {
                 countDownTimer.cancel()
-                leftTime += 10 * 1000
+                leftTime += giftTime
                 startTimer(leftTime)
             }
         } else {
